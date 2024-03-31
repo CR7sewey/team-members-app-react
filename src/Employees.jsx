@@ -1,30 +1,11 @@
-import { useState } from "react"
+import PropTypes from 'prop-types'; // validar props
 import femaleProfile from './assets/images/femaleProfile.jpg'
 import maleProfile from './assets/images/maleProfile.jpg'
 import { data as dados } from "./assets/data/initialData"
 
 const data = [...dados];
 
-const Employees = () => {
-
-    const [selectedTeam, setSelectedTeam] = useState("TeamA");
-
-    const [employees, setEmployees] = useState([...data]);    
-    
-    const handleTeamSelectionChange = (e) => {
-      console.log(e.target.value);
-
-      setSelectedTeam(e.target.value);
-      console.log(selectedTeam);
-    }
-    
-    function handleEmployeeCardClick(e) {
-      const transformedEmployees = employees.map((employee) => employee.id === parseInt(e.currentTarget.id)
-      ? (employee.teamName === selectedTeam)?{...employee, teamName: ''}:{...employee, teamName: selectedTeam}:employee);
-      console.log(transformedEmployees);
-      setEmployees(transformedEmployees);
-    }
-
+const Employees = ({employees, selectedTeam, handleEmployeeCardClick, handleTeamSelectionChange}) => {
     return (
         <main className="container">
            <div className="row justify-content-center mt-3 mb-3">
@@ -56,6 +37,13 @@ const Employees = () => {
         </div>
         </main>
     )
+}
+
+Employees.propTypes = {
+  employees: PropTypes.array.isRequired,
+  selectedTeam: PropTypes.string.isRequired,
+  handleEmployeeCardClick: PropTypes.func.isRequired,
+  handleTeamSelectionChange: PropTypes.func.isRequired,
 }
 
 export default Employees
