@@ -5,6 +5,10 @@ import Header from './Header'
 import { useEffect, useState } from 'react'
 import { data as dados } from "./assets/data/initialData"
 import Employees from './Employees'
+import GroupedTeamMembers from './GroupedTeamMembers'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Nav from './Nav'
+import NotFound from './NotFound'
 
 const data = [...dados];
 
@@ -40,15 +44,27 @@ function App() {
 
   return (
     <>
-      <Header selectedTeam={selectedTeam} 
-      teamMemberCount={employees.filter((employee) => employee.teamName === selectedTeam).length} />
-      <Employees 
-      employees={employees}
-      selectedTeam={selectedTeam}
-      handleEmployeeCardClick={handleEmployeeCardClick}
-      handleTeamSelectionChange={handleTeamSelectionChange}
-       />
-      <Footer />
+      <Router>
+      <Nav />
+
+        <Header selectedTeam={selectedTeam} 
+        teamMemberCount={employees.filter((employee) => employee.teamName === selectedTeam).length} />
+        <Routes>
+          <Route path='/' element={<Employees 
+            employees={employees}
+            selectedTeam={selectedTeam}
+            handleEmployeeCardClick={handleEmployeeCardClick}
+            handleTeamSelectionChange={handleTeamSelectionChange}
+            />}>
+          </Route>
+          <Route path='/GroupedTeamMembers' element = {<GroupedTeamMembers  employees={employees}
+            selectedTeam={selectedTeam} setTeam={setSelectedTeam} />}>
+          </Route>
+          <Route path='*' element ={<NotFound />}>
+          </Route>
+        </Routes>
+        <Footer />
+      </Router>
     </>
   )
 }
