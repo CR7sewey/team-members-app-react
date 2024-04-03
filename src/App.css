@@ -18,3 +18,9 @@ h1,h2,h3,h4,h5,h6,p {
 .selected {
   font-size: 36px;
 }
+
+@media only screen and (max-width:600px) {
+  .card-collection{
+    grid-template-columns: 1fr;
+  }
+}
