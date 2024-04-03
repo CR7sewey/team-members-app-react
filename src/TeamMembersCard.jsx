@@ -1,7 +1,14 @@
 import femaleProfile from './assets/images/femaleProfile.jpg'
 import maleProfile from './assets/images/maleProfile.jpg'
+import { useContext } from "react"
 
-const TeamMembersCard = ({value, selectedTeam, handleEmployeeCardClick}) => {
+import DataContext from "./context/DataContext"
+
+
+const TeamMembersCard = ({value}) => {
+
+    const {selectedTeam, handleEmployeeCardClick} = useContext(DataContext);
+    
     return (
         <div id={value.id} className={(value.teamName === selectedTeam ? 'card m-2 standout':'card m-2')} style={{cursor: "pointer"}} key={value.id} onClick={handleEmployeeCardClick}>
                     {value.gender === "female" ? <img src={femaleProfile} className="card-img-top"/> : <img src={maleProfile} className="card-img-top"/>}

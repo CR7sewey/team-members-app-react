@@ -1,5 +1,10 @@
+import { useContext } from "react"
+import DataContext from "./context/DataContext"
 
-const Header = ({selectedTeam, teamMemberCount}) => {
+const Header = () => {
+  
+  const {selectedTeam, employees} = useContext(DataContext);
+  const teamMemberCount = employees.filter((employee) => employee.teamName === selectedTeam).length;
 
   return (
     <header className="container">

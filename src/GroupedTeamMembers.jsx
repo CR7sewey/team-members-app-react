@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PropTypes from 'prop-types';
+import DataContext from "./context/DataContext";
 
 
-const GroupedTeamMembers = ({employees, selectedTeam, setTeam}) => {
+const GroupedTeamMembers = () => {
+
+    const {employees, selectedTeam, setTeam} = useContext(DataContext);
 
     const [groupedEmployees, setGroupedData] = useState(groupTeamMembers());
 
