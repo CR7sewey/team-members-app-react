@@ -27,73 +27,43 @@ const GroupedTeamMembers = ({employees, selectedTeam, setTeam}) => {
       return teams
     }
 
-    function showTeam(e) {
-      console.log(e.target.innerText.split(" ")[2])
-      const chosenTeam = e.target.innerText.split(" ")[2];
-      setTeam(chosenTeam);
+    function handleTeamClick(event) {
+      var newGroupedData = groupedEmployees.map((groupedData) => groupedData.team === event.currentTarget.id ? { ...groupedData, collapsed: !groupedData.collapsed } : groupedData);
+      setGroupedData(newGroupedData);
+      setTeam(event.currentTarget.id);
+  
     }
-
-    function showElements(element) {
-      return(
-      <>
-      <h5><b>Full Name: {element.fullName}</b></h5>
-      <h6>Designation: {element.designation}</h6>
-      </>)
-    }
-
+  
     return (
       <main className="container">
-        <div className="row justify-content-center mt-3 mb-4">
-        
-        <div className="col-8">
-          <div>
-            <div onClick={showTeam}>
-              <h2>Team Name: TeamA</h2>
-              <div>
-                {selectedTeam === 'TeamA' ? groupedEmployees.filter((value) => value.team === selectedTeam)[0]
-                .members.map((member) => showElements(member)):<></>}
+        {groupedEmployees.map((item) => {
+          return (
+            <div key={item.team} className="card mt-2" style={{ cursor: "pointer" }}>
+              <h4 id={item.team} className="card-header text-secondary bg-white" onClick={handleTeamClick}>
+                Team Name: {item.team}
+              </h4>
+              <div id={"collapse_" + item.team} className={item.collapsed === true ? "collapse" : ""}>
+                <hr />
+                {item.members.map((member) => {
+                  return (
+                    <div key={member.id} className="mt-2">
+                      <h5 className="card-title mt-2">
+                        <span className="text-dark"><b>Full Name:</b> {member.fullName}</span>
+                      </h5>
+                      <p className="card-text text-dark mt-2">
+                        <b>Designation:</b> {member.designation}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
+              <hr />
             </div>
-            <div onClick={showTeam}>
-              <h3>Team Name: TeamB</h3>
-              <div>
-                {selectedTeam === 'TeamB' ? groupedEmployees.filter((value) => value.team === selectedTeam)[0]
-                .members.map((member) => showElements(member)):<></>}
-              </div>
-            </div>
-            <div onClick={showTeam}>
-              <h3>Team Name: TeamC</h3>
-              <div>
-                {selectedTeam === 'TeamC' ? groupedEmployees.filter((value) => value.team === selectedTeam)[0]
-                .members.map((member) => showElements(member)):<></>}
-              </div>
-            </div>
-            <div onClick={showTeam}>
-              <h3>Team Name: TeamD</h3>
-              <div>
-                {selectedTeam === 'TeamD' ? groupedEmployees.filter((value) => value.team === selectedTeam)[0]
-                .members.map((member) => showElements(member)):<></>}
-              </div>
-            </div>
-
-
-          </div>
-         
-            <div>
-              {groupedEmployees.map((value, index) => (
-              <p key={index}>
-                {value.members[0].fullName}
-              </p>
-            ))}
-            </div>
-        
-        </div>
-        </div>
-        
+          );
+        })}
       </main>
     )
   }
-
 GroupedTeamMembers.propTypes = {
   employees: PropTypes.array,
   selectedTeam: PropTypes.string,
